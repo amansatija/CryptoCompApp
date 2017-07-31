@@ -59,10 +59,27 @@ let app = new Vue ({
      * image.
      */
     getCoinImage: function(symbol) {
+    	// These two symbols don't match up across API services. I'm manually
+      // replacing these here so I can find the correct image for the currency.
+      //
+      // In the future, it would be nice to find a more generic way of searching
+      // for currency images
+      symbol = (symbol === "MIOTA" ? "IOT" : symbol);
+      symbol = (symbol === "VERI" ? "VRM" : symbol);
+
     	return CRYPTOCOMPARE_API_URI + this.coinData[symbol].ImageUrl;
 
-    	},
     },
+     /**
+     * Return a CSS color (either red or green) depending on whether or
+     * not the value passed in is negative or positive.
+     */
+     getColor: (num) => {
+     	return num > 0 ? "color:green;" : "color:red;";
+     }, 
+
+    },
+    
     created: function () {
     	this.getCoinData();
     }
